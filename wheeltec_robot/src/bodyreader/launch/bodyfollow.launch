@@ -1,0 +1,33 @@
+
+<launch>
+  <!-- 初始化小车底盘 -->
+  <include file="$(find turn_on_wheeltec_robot)/launch/turn_on_wheeltec_robot.launch" />
+  <!-- 人体骨架识别节点 -->
+  <node pkg="bodyreader" type="main" name="body_main" output="screen">
+    <param name="rgb_stream" value="true" />
+    <param name="body_stream" value="true" />
+  </node>
+  <!-- 动作定义节点 -->
+  <node pkg="bodyreader" type="bodydata_process" name="bodydata_process" output="screen"/>
+  <!-- 跟随节点 -->
+  <node pkg="bodyreader" type="follower" name="body_follower" >
+    <param name="bodyfollow_x_p" value="0.5"/>
+    <param name="bodyfollow_x_d" value="0.33"/>
+    <param name="bodyfollow_z_p" value="4"/>
+    <param name="bodyfollow_z_d" value="15"/>
+    <param name="mode" value="2"/>
+  </node> 
+
+  <!-- 反馈（语音反馈/图像UI） -->
+  <node pkg="bodyreader" type="feedback" name="body_feedback">
+    <param name="voice_feedback" value="true" />
+    <param name="interaction" value="0" />
+  </node>
+  <node pkg="bodyreader" type="display.py" name="body_display" />
+  <!-- <include file="$(find usb_cam)/launch/usb_cam-test.launch" /> -->
+  <node pkg="bodyreader" type="image_trans" name="display_image_trans" >
+    <param name="input_image_topic" value="/body/body_display"/>
+    <param name="output_image_topic" value="/repub/body/body_display"/>
+  </node>
+
+</launch>

@@ -1,0 +1,192 @@
+1.ROS control with keyboard
+//need to launch the initialization node first
+roslaunch turn_on_wheeltec_robot turn_on_wheeltec_robot.launch
+//launch the keyboard control node 
+roslaunch joy_control joy_control.launch
+
+2.line-tracking with radar obstacle avoidance (sensor: radar, camera)
+roslaunch simple_follower line_follower.launch 
+
+3.tracking with radar scanning (sensor: radar)
+roslaunch simple_follower laser_follower.launch 
+
+4.color-tracking (sensor: camera)
+roslaunch simple_follower visual_follower.launch 
+
+5.2d_mapping 2d_navigation (sensor: radar)
+roslaunch turn_on_wheeltec_robot mapping.launch 
+roslaunch turn_on_wheeltec_robot navigation.launch 
+map saving
+roslaunch turn_on_wheeltec_robot map_saver.launch 
+
+6.3d_mapping 3d_navigation (sensor: radar, camera)
+roslaunch turn_on_wheeltec_robot 3d_mapping.launch 
+roslaunch turn_on_wheeltec_robot 3d_navigation.launch 
+
+7.pure3d_mapping pure3d_navigation  (sensor: camera)
+roslaunch turn_on_wheeltec_robot pure3d_mapping.launch
+roslaunch turn_on_wheeltec_robot pure3d_navigation.launch
+
+8.Voice control (Voice module required)
+//open the bottom, navigation, and radar scan nodes
+roslaunch xf_mic_asr_offline base.launch
+//launch the microphone array initialization node
+roslaunch xf_mic_asr_offline mic_init.launch
+
+9.KCF tracking (sensor: camera)
+roslaunch kcf_track kcf_tracker.launch
+
+10.RRT mapping（For details, see the tutorial）(sensor: radar)
+//launch rrt_slam.launch file:
+roslaunch turn_on_wheeltec_robot rrt_slam.launch
+//run RVIZ, click "Add" → "By Topic" at the bottom left to add these configuration plugins:
+clicked_point	Show the range point and starting point of the random tree
+detected_points	Boundary point detected
+frontiers		The boundary points received by the filter, the data are the same as above
+centroids		The effective boundary point after filtering
+global_detector_shapes	Global tree
+local_detector_shapes	Local tree
+// with the Publish Point tool of RVIZ, set four boundary points of the growth tree clockwise or counterclockwise, and a starting point of the growth tree (as close as possible to the starting point of the robot). After setting, the robot will explore the map based on the growth tree.
+
+11.Wheeltec App for Graphic Transfer, Mapping and Navigation
+//the user's mobile phone should be connected to the car WiFi, and then open the APP to use.The APP can control car movement, save maps and view camera images, as described in the Wheeltec APP functional tutorial
+//figure transmission, need to manually launch the RGB camera node:
+roslaunch usb_cam usb_cam-test.launch (The APP can watch the camera in real time)
+//mapping, need to manually launch the mapping node:
+roslaunch turn_on_wheeltec_robot mapping.launch 
+APP terminal can view the drawing effect and save, and control the car movement at the same time
+//navigation, need to manually launch the navigation node:
+roslaunch turn_on_wheeltec_robot navigation.launch 
+APP terminal can control the car movement
+
+12.Multi-robot formation(need multiple cars)
+//preparation before using the function
+//all cars must be on the same network (WiFi), and then modify the.bashrc file to set the master and slave. See the multi-robot formation tutorial
+//Leader should have mapping first and save the map
+//put Leader at the beginning point of the map，Slaves can be set nearby
+//logging in remotely using the SSH command, click "Broadcast to All" in the upper left corner of the split terminal to synchronize the time using the command
+//Step1：launch the 2D navigation function with Leader
+roslaunch turn_on_wheeltec_robot navigation.launch 
+//Step 2：launch the formation function with Slaves
+roslaunch wheeltec_multi wheeltec_slave.launch
+//Step 3：using keyboard or controller and control Leader's movement
+roslaunch wheeltec_multi keyboard_teleop.launch 
+//Step 4（unnecessary）：observing the movement of the robots with rviz
+rviz
+
+13.display the camera image through the Web browser(sensor: camera)
+The host：roslaunch usb_cam usb_cam-test.launch
+                  rosrun web_video_server web_video_server
+Host Web view：http://localhost:8080/(The hotspot is emitted by the host)
+Client Web View：http://192.168.0.100:8080 (The client is connected to the hot spot)
+
+14.TensorFlow with ROS(Jetson should run in anaconda and not support for Raspberry Pi 2GB)
+//TensorFlow object recognition
+roslaunch ros_tensorflow ros_tensorflow_classify.launch
+//TensorFlow object detection
+roslaunch ros_tensorflow ros_tensorflow_detect.launch
+rqt_image_view（choose the '/result_ripe' topic）
+//TensorFlow mnist
+roslaunch ros_tensorflow ros_tensorflow_mnist.launch
+
+15.AR tag recognition (sensor: camera)
+roslaunch turn_on_wheeltec_robot ar_label.launch
+
+AR tag following
+roslaunch simple_follower ar_follower.launch
+   
+16.ROS control with wireless controller
+//need to launch the initialization node first
+roslaunch turn_on_wheeltec_robot turn_on_wheeltec_robot.launch
+//launch the control node of the controller
+roslaunch joy_control joy_control.launch
+
+17.deep learning（only support on Jetsons）
+//launch the deep learning node
+roslaunch darknet_ros darknet_ros.launch
+//launch the gesture recognition motion node
+roslaunch wheeltec_yolo_action gesture.launch
+//launch the sand table motion node
+roslaunch wheeltec_yolo_action dp_drive.launch
+
+18.Gazebo mapping and navigation simulation（only support on VM）
+//2D gazebo mapping
+roslaunch wheeltec_gazebo_function mapping.launch
+//keyboard control
+roslaunch wheeltec_gazebo_function keyboard_teleop.launch
+//map saving
+(WHEELTEC.pgm、WHEELTEC.yaml)
+roslaunch wheeltec_gazebo_function map_saver.launch
+//2D gazebo navigation
+roslaunch wheeltec_gazebo_function navigation.launch
+
+19.ROS Qt（only support on VM）
+//run the sh file to set ssh login free and run roscore with the robot
+bash initssh.sh
+//when the sh file setting finished,run the launch file to run the qt function
+roslaunch qt_ros_test qt_ros_test.launch
+
+20.TTS（Text To Speech）
+roslaunch tts tts_make.launch
+audio will be generate and locate in /tts_make/audio
+
+21.Skeleton following and posture control（only support on Jetsons）
+//posture control
+roslaunch bodyreader bodyinteraction.launch
+//skeleton following
+roslaunch bodyreader bodyfollow.launch
+//Skeleton following and posture control——posture control mode default，change the mode with hands cross over yourchest
+roslaunch bodyreader final.launch
+
+------------------------------------------
+Other common commands
+
+Recursively changes the file modification time in the current (terminal) folder:
+find ./* -exec touch {} \;
+
+Run in workspace, install ROS feature pack all depend on:
+rosdep install --from-paths src --ignore-src -r -y
+
+Change the system time:
+sudo date -s "2022-06-15 09:00:00"
+
+Specify feature pack compilation:
+catkin_make -DCATKIN_WHITELIST_PACKAGES="package name"
+Uncompile the specified feature pack:
+catkin_make -DCATKIN_WHITELIST_PACKAGES=""
+
+SSH login：
+ssh -Y wheeltec@192.168.0.100
+
+NFS mount:
+sudo mount -t nfs 192.168.0.100:/home/wheeltec/wheeltec_robot /mnt
+NFS unmount:
+sudo umount -t nfs 192.168.0.100:/home/wheeltec/wheeltec_robot /mnt
+
+Give executable permissions to all files in a folder:
+sudo chmod -R 777 folder_name
+
+Enter the map path：
+cd /home/wheeltec/wheeltec_robot/src/turn_on_wheeltec_robot/map
+Save the map manually：
+rosrun map_server map_saver -f 20200714
+
+Turn on the camera：
+roslaunch turn_on_wheeltec_robot wheeltec_camera.launch
+rqt_image_view
+
+View node and topic relationships：
+rqt_graph
+
+Generate TF tree PDF：
+rosrun tf view_frames
+Check the TF tree：
+rosrun rqt_tf_tree rqt_tf_tree
+
+VNC adjusts the resolution：
+xrandr --fb 1024x768
+
+rosrun tf view_frames
+evince frame.pdf
+
+
