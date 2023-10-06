@@ -1,0 +1,9 @@
+<launch>
+
+  <!-- 开启摄像头 -->
+  <include file="$(find turn_on_wheeltec_robot)/launch/wheeltec_camera.launch" />
+
+  <node pkg="ros_tensorflow" name="ros_tensorflow_classify" type="ros_tensorflow_classify.py" output="screen"> 
+  </node>
+
+</launch>

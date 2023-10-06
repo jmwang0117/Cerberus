@@ -1,0 +1,92 @@
+<launch>
+  <!--<include file="$(find astra_camera)/launch/astra.launch" />-->
+
+  <!--<include file="$(find turn_on_wheeltec_robot)/launch/turn_on_wheeltec_robot.launch">-->
+       <!-- <arg name="is_cartographer" value="true"/>-->
+  <!--</include>-->
+  
+  <node name="orb_slam2_rgbd" pkg="orb_slam2_ros"
+      type="orb_slam2_ros_rgbd" output="screen">
+
+       <!--<remap from="/camera/rgb/image_raw" to="/camera/rgb/image_rect_color" />-->
+       <!--<remap from="/camera/depth_registered/image_raw" to="/camera/depth_registered/image" />-->
+
+       <param name="publish_pointcloud" type="bool" value="true" />
+       <param name="publish_pose" type="bool" value="true" />
+       <param name="localize_only" type="bool" value="false" />
+       <param name="reset_map" type="bool" value="false" />
+
+       <!-- static parameters -->
+       <param name="load_map" type="bool" value="false" />
+       <param name="map_file" type="string" value="map.bin" />
+       <param name="voc_file" type="string" value="$(find orb_slam2_ros)/orb_slam2/Vocabulary/ORBvoc.txt" />
+
+       <param name="pointcloud_frame_id" type="string" value="map" />
+       <param name="camera_frame_id" type="string" value="camera_link" />
+       <param name="min_num_kf_in_map" type="int" value="5" />
+
+       <!-- ORB parameters -->
+       <param name="/ORBextractor/nFeatures" type="int" value="1000" />
+       <param name="/ORBextractor/scaleFactor" type="double" value="1.2" />
+       <param name="/ORBextractor/nLevels" type="int" value="8" />
+       <param name="/ORBextractor/iniThFAST" type="int" value="20" />
+       <param name="/ORBextractor/minThFAST" type="int" value="7" />
+
+       <!-- Camera parameters -->
+       <!-- Camera frames per second -->
+       <param name="camera_fps" type="int" value="30" />
+       <!-- Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale) -->
+       <param name="camera_rgb_encoding" type="bool" value="true" />
+       <!-- Close/Far threshold. Baseline times. -->
+       <param name="ThDepth" type="double" value="40.0" />
+       <!-- Deptmap values factor (what pixel value in the depth image corresponds to 1m) -->
+       <param name="depth_map_factor" type="double" value="1.0" />
+
+        <!-- Camera calibration parameters -->
+        <!--If the node should wait for a camera_info topic to take the camera calibration data-->
+       <param name="load_calibration_from_cam" type="bool" value="false" />
+       <!-- Camera calibration and distortion parameters (OpenCV) -->
+       <param name="camera_fx" type="double" value="569.05266" />
+       <param name="camera_fy" type="double" value="569.58" />
+       <param name="camera_cx" type="double" value="299.92258" />
+       <param name="camera_cy" type="double" value="241.9061" />
+        <!-- Camera calibration and distortion parameters (OpenCV) -->
+       <param name="camera_k1" type="double" value="0.079766" />
+       <param name="camera_k2" type="double" value="-0.113222" />
+       <param name="camera_p1" type="double" value="-0.000096" />
+       <param name="camera_p2" type="double" value="-0.009403" />
+       <param name="camera_k3" type="double" value="0.0" />
+       <!-- IR projector baseline times fx (aprox.) -->
+       <param name="camera_baseline" type="double" value="75.000" />
+       <!--pointcloud mapping parameters (PCL)  -->
+<!--        <param name="publish_pointcloudmap" type="bool" value="true" /> -->
+       <param name="resolution" type="double" value="0.01"/>
+       <param name="meank" type="double" value="50"/>
+       <param name="thresh" type="double" value="1"/>
+
+  </node>
+
+  <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+
+     <!-- resolution in meters per pixel -->
+     <param name="resolution" value="0.05" /> 
+
+     <!-- name of the fixed frame, needs to be "/map" for SLAM -->
+     <param name="frame_id" type="string" value="/map" /> 
+
+     <!-- max range / depth resolution of the kinect in meter -->
+     <param name="sensor_model/max_range" value="50.0" /> 
+     <param name="latch" value="true" /> -->
+
+     <!-- max/min height for occupancy map, should be in meters -->
+     <param name="pointcloud_max_z" value="1000" />
+     <param name="pointcloud_min_z" value="0" />
+
+     <!-- topic from where pointcloud2 messages are subscribed -->
+     <remap from="/cloud_in" to="/orb_slam2_rgbd/cloud_points" />
+
+   </node>
+
+ <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_point" args="0.00 0.00 0.00 -1.57 0.00 -1.57 map cloudpoint" />
+
+</launch>

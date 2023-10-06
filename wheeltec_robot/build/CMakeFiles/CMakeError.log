@@ -1,0 +1,74 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /root/wheeltec_robot/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_c7cee/fast"
+/usr/bin/make -f CMakeFiles/cmTC_c7cee.dir/build.make CMakeFiles/cmTC_c7cee.dir/build
+make[1]: Entering directory '/root/wheeltec_robot/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c7cee.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_c7cee.dir/CheckSymbolExists.c.o   -c /root/wheeltec_robot/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_c7cee
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c7cee.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_c7cee.dir/CheckSymbolExists.c.o  -o cmTC_c7cee 
+CMakeFiles/cmTC_c7cee.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_c7cee.dir/build.make:97: recipe for target 'cmTC_c7cee' failed
+make[1]: *** [cmTC_c7cee] Error 1
+make[1]: Leaving directory '/root/wheeltec_robot/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_c7cee/fast' failed
+make: *** [cmTC_c7cee/fast] Error 2
+
+File /root/wheeltec_robot/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /root/wheeltec_robot/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d87c8/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d87c8.dir/build.make CMakeFiles/cmTC_d87c8.dir/build
+make[1]: Entering directory '/root/wheeltec_robot/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d87c8.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_d87c8.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.10/Modules/CheckFunctionExists.c
+Linking C executable cmTC_d87c8
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d87c8.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_d87c8.dir/CheckFunctionExists.c.o  -o cmTC_d87c8 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+CMakeFiles/cmTC_d87c8.dir/build.make:97: recipe for target 'cmTC_d87c8' failed
+make[1]: *** [cmTC_d87c8] Error 1
+make[1]: Leaving directory '/root/wheeltec_robot/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_d87c8/fast' failed
+make: *** [cmTC_d87c8/fast] Error 2
+
+
+Determining if the include file pgm.h exists failed with the following output:
+Change Dir: /root/wheeltec_robot/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0418c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0418c.dir/build.make CMakeFiles/cmTC_0418c.dir/build
+make[1]: Entering directory '/root/wheeltec_robot/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_0418c.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_0418c.dir/CheckIncludeFile.cxx.o -c /root/wheeltec_robot/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/root/wheeltec_robot/build/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: pgm.h: No such file or directory
+ #include <pgm.h>
+          ^~~~~~~
+compilation terminated.
+CMakeFiles/cmTC_0418c.dir/build.make:65: recipe for target 'CMakeFiles/cmTC_0418c.dir/CheckIncludeFile.cxx.o' failed
+make[1]: *** [CMakeFiles/cmTC_0418c.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/root/wheeltec_robot/build/CMakeFiles/CMakeTmp'
+Makefile:126: recipe for target 'cmTC_0418c/fast' failed
+make: *** [cmTC_0418c/fast] Error 2
+
+

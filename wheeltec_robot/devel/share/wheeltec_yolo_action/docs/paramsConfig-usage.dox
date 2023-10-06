@@ -1,0 +1,22 @@
+\subsubsection usage Usage
+\verbatim
+<node name="wheeltec_yolo_action" pkg="wheeltec_yolo_action" type="wheeltec_yolo_action">
+  <param name="out_l_center_target" type="double" value="0.28" />
+  <param name="out_l_vel_z_P" type="double" value="0.01" />
+  <param name="out_l_vel_z_D" type="double" value="0.001" />
+  <param name="out_r_center_target" type="double" value="0.75" />
+  <param name="out_r_vel_z_P" type="double" value="0.01" />
+  <param name="out_r_vel_z_D" type="double" value="0.001" />
+  <param name="in_l_center_target" type="double" value="0.28" />
+  <param name="in_l_vel_y_P" type="double" value="0.001" />
+  <param name="in_l_vel_y_D" type="double" value="0.003" />
+  <param name="in_l_vel_z_P" type="double" value="0.006" />
+  <param name="in_l_vel_z_D" type="double" value="0.001" />
+  <param name="in_r_center_target" type="double" value="0.79" />
+  <param name="in_r_vel_y_P" type="double" value="0.001" />
+  <param name="in_r_vel_y_D" type="double" value="0.003" />
+  <param name="in_r_vel_z_P" type="double" value="0.006" />
+  <param name="in_r_vel_z_D" type="double" value="0.001" />
+</node>
+\endverbatim
+

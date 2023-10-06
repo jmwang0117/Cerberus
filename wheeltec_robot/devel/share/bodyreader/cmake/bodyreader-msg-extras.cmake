@@ -1,0 +1,2 @@
+set(bodyreader_MESSAGE_FILES "/root/wheeltec_robot/src/bodyreader/msg/bodyposture.msg;/root/wheeltec_robot/src/bodyreader/msg/vector2f.msg;/root/wheeltec_robot/src/bodyreader/msg/vector3f.msg;/root/wheeltec_robot/src/bodyreader/msg/joint.msg;/root/wheeltec_robot/src/bodyreader/msg/body.msg;/root/wheeltec_robot/src/bodyreader/msg/bodyList.msg;/root/wheeltec_robot/src/bodyreader/msg/maskdata.msg;/root/wheeltec_robot/src/bodyreader/msg/lockedmask_w_h.msg;/root/wheeltec_robot/src/bodyreader/msg/locked_char_rgb.msg")
+set(bodyreader_SERVICE_FILES "")

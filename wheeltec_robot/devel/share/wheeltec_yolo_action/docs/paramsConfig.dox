@@ -1,0 +1,21 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~out_l_center_target" : \b [double] out_l_center_target min: 0.0, default: 0.28, max: 1.0
+- \b "~out_l_vel_z_P" : \b [double] out_l_vel_z_P min: 0.0, default: 0.01, max: 0.02
+- \b "~out_l_vel_z_D" : \b [double] out_l_vel_z_D min: 0.0, default: 0.001, max: 0.01
+- \b "~out_r_center_target" : \b [double] out_r_center_target min: 0.0, default: 0.75, max: 1.0
+- \b "~out_r_vel_z_P" : \b [double] out_r_vel_z_P min: 0.0, default: 0.01, max: 0.02
+- \b "~out_r_vel_z_D" : \b [double] out_r_vel_z_D min: 0.0, default: 0.001, max: 0.01
+- \b "~in_l_center_target" : \b [double] in_l_center_target min: 0.0, default: 0.28, max: 1.0
+- \b "~in_l_vel_y_P" : \b [double] in_l_vel_y_P min: 0.0, default: 0.001, max: 0.02
+- \b "~in_l_vel_y_D" : \b [double] in_l_vel_y_D min: 0.0, default: 0.003, max: 0.01
+- \b "~in_l_vel_z_P" : \b [double] in_l_vel_z_P min: 0.0, default: 0.006, max: 0.02
+- \b "~in_l_vel_z_D" : \b [double] in_l_vel_z_D min: 0.0, default: 0.001, max: 0.01
+- \b "~in_r_center_target" : \b [double] in_r_center_target min: 0.0, default: 0.79, max: 1.0
+- \b "~in_r_vel_y_P" : \b [double] in_r_vel_y_P min: 0.0, default: 0.001, max: 0.02
+- \b "~in_r_vel_y_D" : \b [double] in_r_vel_y_D min: 0.0, default: 0.003, max: 0.01
+- \b "~in_r_vel_z_P" : \b [double] in_r_vel_z_P min: 0.0, default: 0.006, max: 0.02
+- \b "~in_r_vel_z_D" : \b [double] in_r_vel_z_D min: 0.0, default: 0.001, max: 0.01
+

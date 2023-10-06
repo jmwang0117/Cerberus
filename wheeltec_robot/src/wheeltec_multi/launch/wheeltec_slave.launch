@@ -1,0 +1,86 @@
+
+<launch>
+<!-- +参数设+ -->
+	<!-- 从机的期望跟随坐标  以主车为坐标原点  -->
+	<arg name="slave_x" value="-0.8"/> 		<!-- slave_x为从车（跟随者）的期望x坐标，主车前方为正方向，单位：m  -->
+	<arg name="slave_y" value="0.8"/> 		<!-- slave_y为从车（跟随者）的期望y坐标，主车左方为正方向，单位：m  -->
+
+	<!-- 编队模式选择  1：主车自转，从车围绕主车运动型    2：主车自转，从车原地自转型（从车模仿主车运动）-->
+	<!-- akm小车推荐使用编队模式2，非akm小车两种模式皆可 -->
+	<!-- 编队模式1下，主车角速度不宜过大 -->
+	<arg name="multi_mode" value="2" />
+
+	<!-- 是否开启避障功能 true / false默认开启-->
+	<arg name="avoidance" value="true"/>
+
+	<arg name="max_vel_x" value="0.8" /> 		<!-- 从车最大线速度限制（绝对值） -->  
+	<arg name="min_vel_x" value="0.05" /> 	<!-- 从车最小线速度限制（绝对值） -->
+	<arg name="max_vel_theta" value="0.8" /> 	<!-- 从车最大角速度限制（绝对值） -->  
+	<arg name="min_vel_theta" value="0.05" /> <!-- 从车最小角速度限制（绝对值） --> 
+<!-- +参数设置+ -->
+
+<!-- 定位 -->
+	 <!-- 开启机器人底层相关节点 同时开启自适应蒙特卡洛定位amcl-->
+	 <include file="$(find turn_on_wheeltec_robot)/launch/turn_on_wheeltec_robot.launch">
+	    <arg name="navigation"  default="true"/>
+	 </include>
+	 <!-- turn on lidar开启雷达  -->
+	 <include file="$(find turn_on_wheeltec_robot)/launch/wheeltec_lidar.launch" />
+
+	 <!-- 设置需要用于导航的地图  -->
+	 <arg name="map_file" default="$(find turn_on_wheeltec_robot)/map/WHEELTEC.yaml"/>
+	 	<node name="map_server_faor_test" pkg="map_server" type="map_server" args="$(arg map_file)">
+	 </node>
+
+	 <!-- 开启用于导航的自适应蒙特卡洛定位amcl-->
+	 <include file="$(find turn_on_wheeltec_robot)/launch/include/amcl.launch" />
+
+	 <!-- 多机编队的从机位姿初始化-->
+	<node name="pose_setter" pkg="wheeltec_multi" type="set_pose.py" args="0 0 0" output="screen" >
+		<param name='slave_x'    type='double' value='$(arg slave_x)'  />
+		<param name='slave_y'    type='double' value='$(arg slave_y)'  />
+	</node>
+<!-- 定位 -->
+
+<!-- 避障 -->
+	<group if="$(arg avoidance)"> 
+		<node name='laser_tracker' pkg="simple_follower" type="laserTracker.py"> <!-- 提取最近的障碍物距离信息 -->
+			<param name="winSize" value="2" type="int" />
+			<param name="deltaDist" value="0.2" type="double" />
+		</node>
+		<node pkg="wheeltec_multi" type="multi_avoidance" name="multi_avoidance" output="screen" > <!-- 发布速度信息 -->
+			<param name="avoidance_kv" type="double" value="0.4" /> 		<!-- 修正从车线速度的参数，参数越大，障碍物对从车减速作用越强 -->
+			<param name="avoidance_kw" type="double" value="0.4" /> 		<!-- 修正从车角速度的参数，参数越大，调节从车角度，使车头偏离障碍物的作用越强 -->
+			<param name="safe_distence" type="double" value="0.4" /> 		<!-- 安全距离界限 -->
+			<param name="danger_distence" type="double" value="0.2" /> 		<!-- 危险距离界限 -->
+			<param name="max_vel_x" value="$(arg max_vel_x)" /> 		<!-- 从车最大线速度限制（绝对值） -->  
+			<param name="min_vel_x" value="$(arg min_vel_x)" /> 	<!-- 从车最小线速度限制（绝对值） -->
+			<param name="max_vel_theta" value="$(arg max_vel_theta)" /> 	<!-- 从车最大角速度限制（绝对值） -->  
+			<param name="min_vel_theta" value="$(arg min_vel_theta)" /> <!-- 从车最小角速度限制（绝对值） --> 
+		</node>
+	</group>
+<!-- 避障 -->
+
+<!-- 从车编队 -->
+	<!-- 从车接受主车位置与速度信息-->
+	<node name="listen_tfodom" pkg="wheeltec_multi" type="listen_tfodom.py" output="screen">
+	</node>
+	<!-- 从机位置监听与从机速度控制节点  -->
+	<node pkg="wheeltec_multi" type="slave_tf_listener" name="slave_tf_listener" output="screen" >
+	  <!-- 参数调节  -->
+		<param name="multi_mode" type="int" value="$(arg multi_mode)" /> 		<!-- 编队模式选择 --> 
+		<param name="k_v" type="double" value="1.0" /> 			<!-- 调节前后方向偏差时，k_v越大，线速度越大 -->  
+		<param name="k_l" type="double" value="1.0" /> 			<!-- 调节左右方向偏差时，k_l越大，角速度越大 -->  
+		<param name="k_a" type="double" value="1.0" />			<!-- 调节角度偏差时，k_a越大，角速度越大 -->  
+		<param name="slave_x" type="double" value="$(arg slave_x)" />
+		<param name="slave_y" type="double" value="$(arg slave_y)" />
+		<remap from="cmd_vel_ori" to="cmd_vel" if="$(eval avoidance == false)"/>
+		<param name="max_vel_x" value="$(arg max_vel_x)" /> 		<!-- 从车最大线速度限制（绝对值） -->  
+		<param name="min_vel_x" value="$(arg min_vel_x)" /> 	<!-- 从车最小线速度限制（绝对值） -->
+		<param name="max_vel_theta" value="$(arg max_vel_theta)" /> 	<!-- 从车最大角速度限制（绝对值） -->  
+		<param name="min_vel_theta" value="$(arg min_vel_theta)" /> <!-- 从车最小角速度限制（绝对值） --> 
+	</node> 
+<!-- 从车编队 -->
+
+</launch>
+

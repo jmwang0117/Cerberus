@@ -1,0 +1,11 @@
+<launch>
+
+  <!-- 开启摄像头 -->
+  <include file="$(find turn_on_wheeltec_robot)/launch/wheeltec_camera.launch" />
+
+  <node pkg="ros_tensorflow" name="ros_tensorflow_detect"  type="ros_tensorflow_detect.py" output="screen"> 
+  </node>
+
+  <node name="republish" type="republish" pkg="image_transport" output="screen"   args="raw in:=/result_ripe compressed out:=/tensorflow_detect/image_raw" />
+
+</launch>

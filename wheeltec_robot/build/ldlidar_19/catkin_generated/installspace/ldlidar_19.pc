@@ -1,0 +1,8 @@
+prefix=/root/wheeltec_robot/install
+
+Name: ldlidar_19
+Description: Description of ldlidar_19
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

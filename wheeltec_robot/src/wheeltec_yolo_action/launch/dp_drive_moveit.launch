@@ -1,0 +1,32 @@
+<launch>
+  
+  <!-- <include file="$(find turn_on_wheeltec_robot)/launch/turn_on_wheeltec_robot.launch" /> -->
+
+  <node name='drive_decision_node' pkg="wheeltec_yolo_action" type="drive_decision_node_moveit.py" output="screen">
+    <param name="out_l_center_target" value="0.30" type="double" />
+    <param name="out_l_vel_z_P" value="0.015" type="double" />
+    <param name="out_l_vel_z_D" value="0.001" type="double" />
+    <param name="out_r_center_target" value="0.75" type="double" />
+    <param name="out_r_vel_z_P" value="0.010" type="double" />
+    <param name="out_r_vel_z_D" value="0.001" type="double" />
+
+    <param name="block_xmin" value="330" type="int" />
+    <param name="block_ymin" value="383" type="int" />
+    <param name="block_xmax" value="357" type="int" />
+    <param name="block_ymax" value="424" type="int" />
+
+    <param name="left_sign_xmin" value="112" type="int" />
+    <param name="left_sign_ymin" value="276" type="int" />
+    <param name="left_sign_xmax" value="183" type="int" />
+    <param name="left_sign_ymax" value="352" type="int" />
+    <param name="right_sign_xmin" value="482" type="int" />
+    <param name="right_sign_ymin" value="285" type="int" />
+    <param name="right_sign_xmax" value="564" type="int" />
+    <param name="right_sign_ymax" value="340" type="int" />
+
+  </node>   
+
+  <node name='drive_execution_node' pkg="wheeltec_yolo_action" type="drive_execution_node.py">
+    </node>
+
+</launch>
