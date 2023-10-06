@@ -17,5 +17,16 @@ make && sudo make install
 
 sudo apt-get install ros-melodic-bfl
 sudo apt-get install ros-melodic-tf2-sensor-msgs
+sudo apt-get install ros-melodic-navigation
+sudo apt-get install ros-melodic-costmap-converter
+sudo apt-get install ros-melodic-mbf-costmap-nav
+sudo apt-get install cmake libblkid-dev e2fslibs-dev libboost-all-dev libaudit-dev
+sudo apt-get install libsuitesparse-dev
+sudo apt-get install ros-melodic-libg2o
+sudo apt-get install ros-melodic-async-web-server-cpp
+sudo apt-get install ros-melodic-joy*
+sudo apt-get install libpcap-dev
+ sudo apt-get install libudev-dev
+
 
 https://github.com/IntelRealSense/librealsense
