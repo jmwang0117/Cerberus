@@ -1,8 +1,0 @@
-prefix=/root/wheeltec_robot/devel
-
-Name: ros_tensorflow
-Description: Description of ros_tensorflow
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

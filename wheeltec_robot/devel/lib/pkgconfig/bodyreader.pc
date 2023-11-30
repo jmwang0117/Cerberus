@@ -1,8 +1,0 @@
-prefix=/root/wheeltec_robot/devel
-
-Name: bodyreader
-Description: Description of bodyreader
-Version: 0.0.0
-Cflags: -I/root/wheeltec_robot/devel/include
-Libs: -L${prefix}/lib 
-Requires: roscpp rospy std_msgs message_runtime

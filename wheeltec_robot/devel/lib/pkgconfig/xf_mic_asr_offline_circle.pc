@@ -1,8 +1,0 @@
-prefix=/root/wheeltec_robot/devel
-
-Name: xf_mic_asr_offline_circle
-Description: Description of xf_mic_asr_offline_circle
-Version: 0.0.0
-Cflags: -I/root/wheeltec_robot/devel/include
-Libs: -L${prefix}/lib 
-Requires: message_runtime
