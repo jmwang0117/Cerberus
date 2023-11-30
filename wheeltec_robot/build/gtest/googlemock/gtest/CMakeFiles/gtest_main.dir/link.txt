@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC   -shared -Wl,-soname,libgtest_main.so -o libgtest_main.so CMakeFiles/gtest_main.dir/src/gtest_main.cc.o  -L/root/wheeltec_robot/build/gtest/googlemock/gtest/src -Wl,-rpath,/root/wheeltec_robot/build/gtest/googlemock/gtest/src:/root/wheeltec_robot/build/gtest/googlemock/gtest -lpthread libgtest.so -lpthread 

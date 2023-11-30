@@ -1,8 +1,0 @@
-prefix=/root/wheeltec_robot/install
-
-Name: slam_karto
-Description: Description of slam_karto
-Version: 0.8.1
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
